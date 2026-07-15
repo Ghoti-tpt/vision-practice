@@ -22,7 +22,6 @@ import frc.robot.Commands.*;
 public class RobotContainer {
     private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
-    private VisionSubsystem vis;
     /* Setting up bindings for necessary control of the swerve drive platform */
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
             .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
@@ -38,7 +37,6 @@ public class RobotContainer {
 
     public RobotContainer() {
         configureBindings();
-        vis = new VisionSubsystem(drivetrain);
     }
 
     private void configureBindings() {
