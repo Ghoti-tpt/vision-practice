@@ -9,7 +9,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 public class HopperConstants {
 
     public static final TalonFX mHopperFx = new TalonFX(0);
-    public static final TalonFX mSideSweaperFx =  new TalonFX(0);;
+    public static final TalonFX mSideSweaperFx =  new TalonFX(0);
 
     private HopperConstants() {
         configureMotor();
@@ -20,9 +20,6 @@ public class HopperConstants {
 
         motorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
         // motorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
-
-        // stator -> what your giving the motor
-        // supply -> what your 
 
         motorConfig.CurrentLimits.StatorCurrentLimit = 80;
         motorConfig.CurrentLimits.StatorCurrentLimitEnable = true;
