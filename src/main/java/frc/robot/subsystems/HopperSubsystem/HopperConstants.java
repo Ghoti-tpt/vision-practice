@@ -9,13 +9,17 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 public class HopperConstants {
 
     public static final TalonFX mHopperFx = new TalonFX(0);
-    public static final TalonFX mSideSweaperFx =  new TalonFX(0);
+    public static final TalonFX mSideSweaperBottomFx =  new TalonFX(0);
+
+    // not added yet
+    public static final TalonFX mSideSweaperMiddleFx = new TalonFX(0);
+    public static final TalonFX mSideSweaperTopFx = new TalonFX(0);
 
     private HopperConstants() {
-        configureMotor();
+        configureHopperMotor();
     }
 
-    private void configureMotor() {
+    private void configureHopperMotor() {
         TalonFXConfiguration motorConfig = new TalonFXConfiguration();
 
         motorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
@@ -28,7 +32,7 @@ public class HopperConstants {
         motorConfig.CurrentLimits.SupplyCurrentLowerLimit = 0;
         
         mHopperFx.getConfigurator().apply(motorConfig);
-        mHopperFx.setControl(new Follower(mSideSweaperFx.getDeviceID(), MotorAlignmentValue.Opposed));
+        mSideSweaperBottomFx.setControl(new Follower(mHopperFx.getDeviceID(), MotorAlignmentValue.Opposed));
 
     }  
 }

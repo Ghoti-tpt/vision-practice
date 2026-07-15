@@ -17,7 +17,6 @@ public class HopperSubsystem extends SubsystemBase{
     private static HopperSubsystem INSTANCE;
     
     private final TalonFX mHopperFx = HopperConstants.mHopperFx;
-    private final TalonFX mSideSweaperFx = HopperConstants.mSideSweaperFx;
 
     private VoltageOut voltageRequest = new VoltageOut(0.0).withEnableFOC(Constants.EnableFOC);
 
