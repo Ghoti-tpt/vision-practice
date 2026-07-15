@@ -1,15 +1,10 @@
 package frc.robot.subsystems.Transfer;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.Follower;
-import com.ctre.phoenix6.controls.VoltageOut;
+import com.ctre.phoenix6.controls.StrictFollower;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-
-import edu.wpi.first.wpilibj.motorcontrol.Talon;
-
 import com.ctre.phoenix6.signals.InvertedValue;
-import com.ctre.phoenix6.signals.MotorAlignmentValue;
 
 import frc.robot.RobotConstants;
 
@@ -20,14 +15,31 @@ public class TransferConstants {
     public static final int sideSweeperFollowerID = 0;
     public static final int turretTransferID = 0;
     public static final int cornerSweepID = 0;
-    
+
     public static class MotorConfig {
-        
+
         private static final TalonFXConfiguration floorMotorConfig = new TalonFXConfiguration();
         public static final TalonFX floorRoller = new TalonFX(TransferConstants.floorRollerID, RobotConstants.MAIN_SYSTEMS_CANBUS);
         public static final TalonFX floorRollerFollower = new TalonFX(TransferConstants.floorRollerFollowerID, RobotConstants.MAIN_SYSTEMS_CANBUS);
-        
-        public void FloorMotorConfig() {
+
+        private static final TalonFXConfiguration sideSweepMotorConfig = new TalonFXConfiguration();
+        public static final TalonFX sideSweep = new TalonFX(TransferConstants.sideSweeperID, RobotConstants.MAIN_SYSTEMS_CANBUS);
+        public static final TalonFX sideSweepFollower = new TalonFX(TransferConstants.sideSweeperFollowerID, RobotConstants.MAIN_SYSTEMS_CANBUS);
+
+        private static final TalonFXConfiguration turretTransferConfig = new TalonFXConfiguration();
+        public static final TalonFX turretTransfer = new TalonFX(TransferConstants.turretTransferID, RobotConstants.MAIN_SYSTEMS_CANBUS);
+
+        private static final TalonFXConfiguration cornerSweepMotorConfig = new TalonFXConfiguration();
+        public static final TalonFX cornerSweep = new TalonFX(TransferConstants.cornerSweepID, RobotConstants.MAIN_SYSTEMS_CANBUS);
+
+        static {
+            configureFloor();
+            configureSideSweep();
+            configureTurretTransfer();
+            configureCornerSweep();
+        }
+
+        private static void configureFloor() {
             floorMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
             floorMotorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
             floorMotorConfig.CurrentLimits.StatorCurrentLimitEnable = true;
@@ -39,14 +51,10 @@ public class TransferConstants {
 
             floorRoller.getConfigurator().apply(floorMotorConfig);
             floorRollerFollower.getConfigurator().apply(floorMotorConfig);
-            floorRollerFollower.setControl(new Follower(floorRollerID, MotorAlignmentValue.Opposed));
+            floorRollerFollower.setControl(new StrictFollower(floorRollerID));
         }
 
-        private static final TalonFXConfiguration sideSweepMotorConfig = new TalonFXConfiguration();
-        public static final TalonFX sideSweep = new TalonFX(TransferConstants.sideSweeperID, RobotConstants.MAIN_SYSTEMS_CANBUS);
-        public static final TalonFX sideSweepFollower = new TalonFX(TransferConstants.sideSweeperFollowerID, RobotConstants.MAIN_SYSTEMS_CANBUS);    
-
-        public void SideSweepMotorConfig() {
+        private static void configureSideSweep() {
             sideSweepMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
             sideSweepMotorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
             sideSweepMotorConfig.CurrentLimits.StatorCurrentLimitEnable = true;
@@ -58,13 +66,10 @@ public class TransferConstants {
 
             sideSweep.getConfigurator().apply(sideSweepMotorConfig);
             sideSweepFollower.getConfigurator().apply(sideSweepMotorConfig);
-            sideSweepFollower.setControl(new Follower(sideSweeperID, MotorAlignmentValue.Opposed));
+            sideSweepFollower.setControl(new StrictFollower(sideSweeperID));
         }
 
-        private static final TalonFXConfiguration turretTransferConfig = new TalonFXConfiguration();
-        public static final TalonFX turretTransfer = new TalonFX(TransferConstants.turretTransferID,RobotConstants.MAIN_SYSTEMS_CANBUS);
-
-        public void turretTransferConfig() {
+        private static void configureTurretTransfer() {
             turretTransferConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
             turretTransferConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
             turretTransferConfig.CurrentLimits.StatorCurrentLimitEnable = true;
@@ -77,10 +82,7 @@ public class TransferConstants {
             turretTransfer.getConfigurator().apply(turretTransferConfig);
         }
 
-        private static final TalonFXConfiguration cornerSweepMotorConfig = new TalonFXConfiguration();
-        public static final TalonFX cornerSweep = new TalonFX(TransferConstants.cornerSweepID, RobotConstants.MAIN_SYSTEMS_CANBUS);
-
-        public void CornerSweepMotorConfig() {
+        private static void configureCornerSweep() {
             cornerSweepMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
             cornerSweepMotorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
             cornerSweepMotorConfig.CurrentLimits.StatorCurrentLimitEnable = true;
@@ -92,7 +94,5 @@ public class TransferConstants {
 
             cornerSweep.getConfigurator().apply(cornerSweepMotorConfig);
         }
-    }       
+    }
 }
-
-
