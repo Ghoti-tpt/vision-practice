@@ -5,6 +5,10 @@ import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.networktables.LoggedNetworkBoolean;
+import org.littletonrobotics.junction.networktables.LoggedNetworkNumber;
+
 import frc.robot.Constants;
 
 public class HopperSubsystem extends SubsystemBase{
@@ -35,6 +39,7 @@ public class HopperSubsystem extends SubsystemBase{
     @Override
     public void periodic() {
         applyState();
+        publicLog();
     }
     
     private void applyState() {
@@ -60,6 +65,11 @@ public class HopperSubsystem extends SubsystemBase{
 
         mBedFx.setControl(voltageRequestBed);
         mSideSweaperBottomFx.setControl(voltageRequestSideSweaper);
+    }
+
+    private void publicLog() {
+        Logger.recordOutput("Rebuilt/Hopper/Bed/currentBedState", currentBedState);
+        Logger.recordOutput("Rebuilt/Hopper/Sweaper/currentSweaperState", currentSweaperState);
     }
 
 
