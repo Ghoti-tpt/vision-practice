@@ -34,7 +34,7 @@ public class HopperConstants {
         motorConfig.CurrentLimits.SupplyCurrentLowerLimit = 0;
         
         mBedFx.getConfigurator().apply(motorConfig);
-        mBedFollowerFx.setControl(new Follower(mBedFx.getDeviceID(), MotorAlignmentValue.Opposed));
+        mBedFollowerFx.setControl(new Follower(mBedFx.getDeviceID(), MotorAlignmentValue.Aligned));
 
         // mTurretTransferFx.getConfigurator().apply(motorConfig);
         // mCornerSweaperFx.getConfigurator().apply(motorConfig);
