@@ -18,12 +18,12 @@ public class HopperSubsystem extends SubsystemBase{
     private final TalonFX mSideSweeperBottomFx = HopperConstants.mSideSweeperBottomFx;
 
     private final TalonFX mBedFollowerFx = HopperConstants.mBedFollowerFx;
-    private final TalonFX mTurretTransferFx = HopperConstants.mTurretTransferFx;
+    // private final TalonFX mTurretTransferFx = HopperConstants.mTurretTransferFx;
     private final TalonFX mCornerSweeperFx = HopperConstants.mCornerSweeperFx;
     private final TalonFX mSideSweeperTopFx = HopperConstants.mSideSweeperTopFx;
 
-    private VoltageOut voltageRequestBed = new VoltageOut(0.0).withEnableFOC(Constants.EnableFOC);
-    private VoltageOut voltageRequestSideSweeper = new VoltageOut(0.0).withEnableFOC(Constants.EnableFOC);
+    private VoltageOut voltageRequestBed = new VoltageOut(0.0).withEnableFOC(Constants.ENABLEFOC);
+    private VoltageOut voltageRequestSideSweeper = new VoltageOut(0.0).withEnableFOC(Constants.ENABLEFOC);
 
     // I love commiting :)
 
@@ -87,7 +87,7 @@ public class HopperSubsystem extends SubsystemBase{
 
         Logger.recordOutput("Rebuilt/Hopper/Motors/Sweeper/Velocity/mSideSweeperBottomFx", mSideSweeperBottomFx.getVelocity().getValueAsDouble());
 
-        Logger.recordOutput("Rebuilt/Hopper/Motors/Sweeper/Velocity/mTurretTransferFx", mTurretTransferFx.getVelocity().getValueAsDouble());
+        // Logger.recordOutput("Rebuilt/Hopper/Motors/Sweeper/Velocity/mTurretTransferFx", mTurretTransferFx.getVelocity().getValueAsDouble());
 
         Logger.recordOutput("Rebuilt/Hopper/Motors/Sweeper/Velocity/mCornerSweeperFx", mCornerSweeperFx.getVelocity().getValueAsDouble());
 

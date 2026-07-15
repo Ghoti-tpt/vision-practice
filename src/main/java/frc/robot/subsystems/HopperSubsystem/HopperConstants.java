@@ -42,7 +42,7 @@ public class HopperConstants {
         mSideSweeperBottomFx.getConfigurator().apply(motorConfig);
         mSideSweeperTopFx.setControl(new Follower(mSideSweeperBottomFx.getDeviceID(), MotorAlignmentValue.Aligned ));
 
-        mTurretTransferFx.setControl(new Follower(mSideSweeperBottomFx.getDeviceID(), MotorAlignmentValue.Aligned ));
+        // mTurretTransferFx.setControl(new Follower(mSideSweeperBottomFx.getDeviceID(), MotorAlignmentValue.Aligned ));
         mCornerSweeperFx.setControl(new Follower(mSideSweeperBottomFx.getDeviceID(), MotorAlignmentValue.Aligned ));
 
 
