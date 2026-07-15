@@ -20,6 +20,8 @@ public class HopperSubsystem extends SubsystemBase{
     private VoltageOut voltageRequestBed = new VoltageOut(0.0).withEnableFOC(Constants.EnableFOC);
     private VoltageOut voltageRequestSideSweaper = new VoltageOut(0.0).withEnableFOC(Constants.EnableFOC);
 
+    // I love commiting
+
     public enum SweaperState {
         SHOOTING,
         JAMMED, // may not use
