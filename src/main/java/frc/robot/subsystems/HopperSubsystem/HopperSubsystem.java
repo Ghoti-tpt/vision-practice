@@ -78,9 +78,20 @@ public class HopperSubsystem extends SubsystemBase{
         Logger.recordOutput("Rebuilt/Hopper/Bed/currentBedState", currentBedState);
         Logger.recordOutput("Rebuilt/Hopper/Sweeper/currentSweeperState", currentSweeperState);
 
-        Logger.recordOutput("Rebuilt/Hopper/bed/voltageRequest", voltageRequestBed.Output);
+        Logger.recordOutput("Rebuilt/Hopper/Bed/voltageRequest", voltageRequestBed.Output);
         Logger.recordOutput("Rebuilt/Hopper/Sweeper/voltageRequest", voltageRequestSideSweeper.Output);
-    
+
+        Logger.recordOutput("Rebuilt/Hopper/Motors/Bed/Velocity/mBedFx", mBedFx.getVelocity().getValueAsDouble());
+        
+        Logger.recordOutput("Rebuilt/Hopper/Motors/Bed/Velocity/mBedFxFollower", mBedFollowerFx.getVelocity().getValueAsDouble());
+
+        Logger.recordOutput("Rebuilt/Hopper/Motors/Sweeper/Velocity/mSideSweeperBottomFx", mSideSweeperBottomFx.getVelocity().getValueAsDouble());
+
+        Logger.recordOutput("Rebuilt/Hopper/Motors/Sweeper/Velocity/mTurretTransferFx", mTurretTransferFx.getVelocity().getValueAsDouble());
+
+        Logger.recordOutput("Rebuilt/Hopper/Motors/Sweeper/Velocity/mCornerSweeperFx", mCornerSweeperFx.getVelocity().getValueAsDouble());
+
+        Logger.recordOutput("Rebuilt/Hopper/Motors/Sweeper/Velocity/mSideSweeperTopFx", mSideSweeperTopFx.getVelocity().getValueAsDouble());
         
     }
 
