@@ -17,15 +17,18 @@ public class HopperSubsystem extends SubsystemBase{
     private static HopperSubsystem INSTANCE;
     
     private final TalonFX mHopperFx = HopperConstants.mHopperFx;
+    private final TalonFX mSideSweaperBottomFx = HopperConstants.mSideSweaperBottomFx;
 
-    private VoltageOut voltageRequest = new VoltageOut(0.0).withEnableFOC(Constants.EnableFOC);
+    private VoltageOut voltageRequestHopper = new VoltageOut(0.0).withEnableFOC(Constants.EnableFOC);
+    private VoltageOut voltageRequestSideSweaper = new VoltageOut(0.0).withEnableFOC(Constants.EnableFOC);
 
     public enum HopperState {
-        RUNNING,
-        STOP
+        SHOOTING,
+        JAMMED, // may not
+        IDLING
     }
     
-    public HopperState currenHopperState = HopperState.STOP;
+    public HopperState currenHopperState = HopperState.IDLING;
 
     private HopperSubsystem () {} 
 
@@ -36,15 +39,21 @@ public class HopperSubsystem extends SubsystemBase{
     
     private void applyState() {
         switch (currenHopperState) {
-            case RUNNING:
-                voltageRequest.Output = 3;
+            case SHOOTING:
+                voltageRequestHopper.Output = 3;
+                voltageRequestSideSweaper.Output = 3;
                 break;
-            case STOP:
-                voltageRequest.Output = 0;
+            case JAMMED:
+                break;
+            case IDLING:
+                voltageRequestHopper.Output = 0;
+                voltageRequestSideSweaper.Output = -3;
                 break;
         }
-        mHopperFx.setControl(voltageRequest);
+        mHopperFx.setControl(voltageRequestHopper);
+        mSideSweaperBottomFx.setControl(voltageRequestSideSweaper);
     }
+
 
     public static HopperSubsystem getInstance() {
         if (INSTANCE == null) {

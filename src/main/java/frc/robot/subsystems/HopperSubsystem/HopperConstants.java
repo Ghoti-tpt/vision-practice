@@ -32,7 +32,10 @@ public class HopperConstants {
         motorConfig.CurrentLimits.SupplyCurrentLowerLimit = 0;
         
         mHopperFx.getConfigurator().apply(motorConfig);
-        mSideSweaperBottomFx.setControl(new Follower(mHopperFx.getDeviceID(), MotorAlignmentValue.Opposed));
+        mSideSweaperBottomFx.getConfigurator().apply(motorConfig);
+        mSideSweaperMiddleFx.setControl(new Follower(mSideSweaperBottomFx.getDeviceID(), MotorAlignmentValue.Aligned ));
+        mSideSweaperTopFx.setControl(new Follower(mSideSweaperBottomFx.getDeviceID(), MotorAlignmentValue.Aligned ));
+        // mSideSweaperBottomFx.setControl(new Follower(mHopperFx.getDeviceID(), MotorAlignmentValue.Opposed));
 
     }  
 }
