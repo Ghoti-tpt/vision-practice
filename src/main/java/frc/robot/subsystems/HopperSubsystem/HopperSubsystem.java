@@ -24,7 +24,7 @@ public class HopperSubsystem extends SubsystemBase{
 
     public enum HopperState {
         SHOOTING,
-        JAMMED, // may not
+        JAMMED, // may not use
         IDLING
     }
     
