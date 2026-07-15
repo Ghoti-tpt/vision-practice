@@ -10,19 +10,25 @@ import frc.robot.Constants;
 public class HopperSubsystem extends SubsystemBase{
     private static HopperSubsystem INSTANCE;
     
-    private final TalonFX mHopperFx = HopperConstants.mHopperFx;
+    private final TalonFX mBedFx = HopperConstants.mBedFx;
     private final TalonFX mSideSweaperBottomFx = HopperConstants.mSideSweaperBottomFx;
 
-    private VoltageOut voltageRequestHopper = new VoltageOut(0.0).withEnableFOC(Constants.EnableFOC);
+    private VoltageOut voltageRequestBed = new VoltageOut(0.0).withEnableFOC(Constants.EnableFOC);
     private VoltageOut voltageRequestSideSweaper = new VoltageOut(0.0).withEnableFOC(Constants.EnableFOC);
 
-    public enum HopperState {
+    public enum SweaperState {
         SHOOTING,
         JAMMED, // may not use
         IDLING
     }
+
+    public enum BedState {
+        IDLING,
+        INTAKING
+    }
     
-    public HopperState currenHopperState = HopperState.IDLING;
+    public SweaperState currentSweaperState = SweaperState.IDLING;
+    public BedState currentBedState = BedState.IDLING;
 
     private HopperSubsystem () {} 
 
@@ -32,19 +38,27 @@ public class HopperSubsystem extends SubsystemBase{
     }
     
     private void applyState() {
-        switch (currenHopperState) {
+        switch (currentSweaperState) {
             case SHOOTING:
-                voltageRequestHopper.Output = 3;
                 voltageRequestSideSweaper.Output = 3;
                 break;
             case JAMMED:
                 break;
             case IDLING:
-                voltageRequestHopper.Output = 0;
-                voltageRequestSideSweaper.Output = -3;
+                voltageRequestSideSweaper.Output = 0;
                 break;
         }
-        mHopperFx.setControl(voltageRequestHopper);
+
+        switch (currentBedState) {
+            case INTAKING:
+                voltageRequestBed.Output = 3;
+                break;
+            case IDLING:
+                voltageRequestBed.Output = 0;
+                break;
+        }
+
+        mBedFx.setControl(voltageRequestBed);
         mSideSweaperBottomFx.setControl(voltageRequestSideSweaper);
     }
 
