@@ -9,13 +9,13 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 public class HopperConstants {
 
     public static final TalonFX mBedFx = new TalonFX(0);
-    public static final TalonFX mSideSweaperBottomFx =  new TalonFX(0);
+    public static final TalonFX mSideSweeperBottomFx =  new TalonFX(0);
 
     // not added yet;
     public static final TalonFX mBedFollowerFx = new TalonFX(0);
     public static final TalonFX mTurretTransferFx = new TalonFX(0);
-    public static final TalonFX mCornerSweaperFx = new TalonFX(0);
-    public static final TalonFX mSideSweaperTopFx = new TalonFX(0);
+    public static final TalonFX mCornerSweeperFx = new TalonFX(0);
+    public static final TalonFX mSideSweeperTopFx = new TalonFX(0);
 
     private HopperConstants() {
         configureHopperMotor();
@@ -37,13 +37,13 @@ public class HopperConstants {
         mBedFollowerFx.setControl(new Follower(mBedFx.getDeviceID(), MotorAlignmentValue.Aligned));
 
         // mTurretTransferFx.getConfigurator().apply(motorConfig);
-        // mCornerSweaperFx.getConfigurator().apply(motorConfig);
+        // mCornerSweeperFx.getConfigurator().apply(motorConfig);
 
-        mSideSweaperBottomFx.getConfigurator().apply(motorConfig);
-        mSideSweaperTopFx.setControl(new Follower(mSideSweaperBottomFx.getDeviceID(), MotorAlignmentValue.Aligned ));
+        mSideSweeperBottomFx.getConfigurator().apply(motorConfig);
+        mSideSweeperTopFx.setControl(new Follower(mSideSweeperBottomFx.getDeviceID(), MotorAlignmentValue.Aligned ));
 
-        mTurretTransferFx.setControl(new Follower(mSideSweaperBottomFx.getDeviceID(), MotorAlignmentValue.Aligned ));
-        mCornerSweaperFx.setControl(new Follower(mSideSweaperBottomFx.getDeviceID(), MotorAlignmentValue.Aligned ));
+        mTurretTransferFx.setControl(new Follower(mSideSweeperBottomFx.getDeviceID(), MotorAlignmentValue.Aligned ));
+        mCornerSweeperFx.setControl(new Follower(mSideSweeperBottomFx.getDeviceID(), MotorAlignmentValue.Aligned ));
 
 
         

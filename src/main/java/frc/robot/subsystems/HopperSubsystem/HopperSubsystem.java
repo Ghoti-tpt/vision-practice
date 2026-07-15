@@ -15,14 +15,14 @@ public class HopperSubsystem extends SubsystemBase{
     private static HopperSubsystem INSTANCE;
     
     private final TalonFX mBedFx = HopperConstants.mBedFx;
-    private final TalonFX mSideSweaperBottomFx = HopperConstants.mSideSweaperBottomFx;
+    private final TalonFX mSideSweeperBottomFx = HopperConstants.mSideSweeperBottomFx;
 
     private VoltageOut voltageRequestBed = new VoltageOut(0.0).withEnableFOC(Constants.EnableFOC);
-    private VoltageOut voltageRequestSideSweaper = new VoltageOut(0.0).withEnableFOC(Constants.EnableFOC);
+    private VoltageOut voltageRequestSideSweeper = new VoltageOut(0.0).withEnableFOC(Constants.EnableFOC);
 
     // I love commiting :)
 
-    public enum SweaperState {
+    public enum SweeperState {
         SHOOTING,
         JAMMED, // may not use
         IDLING
@@ -33,7 +33,7 @@ public class HopperSubsystem extends SubsystemBase{
         INTAKING
     }
     
-    public SweaperState currentSweaperState = SweaperState.IDLING;
+    public SweeperState currentSweeperState = SweeperState.IDLING;
     public BedState currentBedState = BedState.IDLING;
 
     private HopperSubsystem () {} 
@@ -45,14 +45,14 @@ public class HopperSubsystem extends SubsystemBase{
     }
     
     private void applyState() {
-        switch (currentSweaperState) {
+        switch (currentSweeperState) {
             case SHOOTING:
-                voltageRequestSideSweaper.Output = 3;
+                voltageRequestSideSweeper.Output = 3;
                 break;
             case JAMMED:
                 break;
             case IDLING:
-                voltageRequestSideSweaper.Output = 0;
+                voltageRequestSideSweeper.Output = 0;
                 break;
         }
 
@@ -66,12 +66,17 @@ public class HopperSubsystem extends SubsystemBase{
         }
 
         mBedFx.setControl(voltageRequestBed);
-        mSideSweaperBottomFx.setControl(voltageRequestSideSweaper);
+        mSideSweeperBottomFx.setControl(voltageRequestSideSweeper);
     }
 
     private void publicLog() {
         Logger.recordOutput("Rebuilt/Hopper/Bed/currentBedState", currentBedState);
-        Logger.recordOutput("Rebuilt/Hopper/Sweaper/currentSweaperState", currentSweaperState);
+        Logger.recordOutput("Rebuilt/Hopper/Sweeper/currentSweeperState", currentSweeperState);
+
+        Logger.recordOutput("Rebuilt/Hopper/bed/voltageRequest", voltageRequestBed.Output);
+        Logger.recordOutput("Rebuilt/Hopper/Sweeper/voltageRequest", voltageRequestSideSweeper.Output);
+    
+        
     }
 
 
