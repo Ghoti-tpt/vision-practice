@@ -8,11 +8,7 @@ import com.ctre.phoenix6.controls.DynamicMotionMagicVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.HopperSubsystem.HopperSubsystem;
-
-import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
     private static IntakeSubsystem INSTANCE;
@@ -20,7 +16,8 @@ public class IntakeSubsystem extends SubsystemBase {
     public enum IntakeState {
         INTAKING,
         IDLING,
-        STORING
+        STORING,
+        ZEROING
     }
 
     private DynamicMotionMagicVoltage IntakeArmMMRequest =  IntakeConstants.IntakeArmMMRequest;
@@ -31,7 +28,7 @@ public class IntakeSubsystem extends SubsystemBase {
     private TalonFX mArmFx = IntakeConstants.mArmFx;
     private TalonFX mIntakeWheelFx = IntakeConstants.mIntakeWheelFx;
 
-    public IntakeState currentIntakeState = IntakeState.STORING;
+    public IntakeState currentIntakeState = IntakeState.ZEROING;
   
     private LoggedNetworkNumber logIntakeRevolutionTargetStore = new LoggedNetworkNumber("Rebuilt/Intake/Tuning/Revolution/StoreTarget", 0);
     private LoggedNetworkNumber logIntakeRevolutionTargetIntaking = new LoggedNetworkNumber("Rebuilt/Intake/Tuning/Revolution/IntakeTarget", 0);
@@ -53,6 +50,9 @@ public class IntakeSubsystem extends SubsystemBase {
 
     private void applyState() {
         switch (currentIntakeState) {
+            case ZEROING:
+                zeroing();
+                IntakeWheelMMRequest.Output = 0;
             case INTAKING:
                 intakeRevolutionTarget = logIntakeRevolutionTargetIntaking.get();
                 IntakeWheelMMRequest.Output = 3;
@@ -70,9 +70,20 @@ public class IntakeSubsystem extends SubsystemBase {
         mIntakeWheelFx.setControl(IntakeWheelMMRequest);
     }
 
+    private void zeroing() {
+        mArmFx.setVoltage(-1);
+        if (Math.abs(mArmFx.getVelocity().getValueAsDouble()) < .05 && Math.abs(mArmFx.getMotorVoltage().getValueAsDouble()) > .4) {
+            mArmFx.setVoltage(0);
+            mArmFx.setPosition(0);
+            currentIntakeState = IntakeState.STORING;
+        }
+    }
+
     private void publishLog(){
         Logger.recordOutput("Rebuilt/Intake/currentState", currentIntakeState);
         Logger.recordOutput("Rebuilt/Intake/Motors/Arm/ArmPosition", mArmFx.getPosition().getValueAsDouble());
+
+        Logger.recordOutput("Rebuilt/Intake/Motors/Wheal/WhealVelocity", mIntakeWheelFx.getVelocity().getValueAsDouble());
 
     }
 
