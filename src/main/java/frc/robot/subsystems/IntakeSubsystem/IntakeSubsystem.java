@@ -3,6 +3,7 @@ package frc.robot.subsystems.IntakeSubsystem;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.LoggedNetworkNumber;
 
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DynamicMotionMagicVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -18,6 +19,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public enum IntakeState {
         INTAKING,
+        IDLING,
         STORING
     }
 
@@ -33,6 +35,7 @@ public class IntakeSubsystem extends SubsystemBase {
   
     private LoggedNetworkNumber logIntakeRevolutionTargetStore = new LoggedNetworkNumber("Rebuilt/Intake/Tuning/Revolution/StoreTarget", 0);
     private LoggedNetworkNumber logIntakeRevolutionTargetIntaking = new LoggedNetworkNumber("Rebuilt/Intake/Tuning/Revolution/IntakeTarget", 0);
+    private LoggedNetworkNumber logIntakeRevolutionTargetIdling = new LoggedNetworkNumber("Rebuilt/Intake/Tuning/Revolution/IdlingTarget", 0);
     
 
     private double intakeRevolutionTarget = 0;
@@ -44,6 +47,7 @@ public class IntakeSubsystem extends SubsystemBase {
     public void periodic() {
         applyState();
         publishLog();
+        updateConstants();
     }
 
 
@@ -51,25 +55,44 @@ public class IntakeSubsystem extends SubsystemBase {
         switch (currentIntakeState) {
             case INTAKING:
                 intakeRevolutionTarget = logIntakeRevolutionTargetIntaking.get();
-                mArmFx.setControl(IntakeArmMMRequest.withPosition(intakeRevolutionTarget));
                 IntakeWheelMMRequest.Output = 3;
-    
+                break;
+            case IDLING:
+                intakeRevolutionTarget = logIntakeRevolutionTargetIdling.get();
+                IntakeWheelMMRequest.Output = 0;
                 break;
             case STORING:
                 intakeRevolutionTarget = logIntakeRevolutionTargetStore.get();
-                mArmFx.setControl(IntakeArmMMRequest.withPosition(intakeRevolutionTarget));
                 IntakeWheelMMRequest.Output = 0;
                 break;
         }
-
+        mArmFx.setControl(IntakeArmMMRequest.withPosition(intakeRevolutionTarget));
         mIntakeWheelFx.setControl(IntakeWheelMMRequest);
     }
 
     private void publishLog(){
         Logger.recordOutput("Rebuilt/Intake/currentState", currentIntakeState);
-
+        Logger.recordOutput("Rebuilt/Intake/Motors/Arm/ArmPosition", mArmFx.getPosition().getValueAsDouble());
 
     }
+
+    private void updateConstants() {
+        TalonFXConfiguration motorConfig = IntakeConstants.motorConfig; 
+
+        if (motorConfig.MotionMagic.MotionMagicAcceleration != IntakeConstants.logIntakeMMAccel.get() ||
+            motorConfig.MotionMagic.MotionMagicCruiseVelocity != IntakeConstants.logIntakeMMVeloc.get() ||
+            motorConfig.Slot0.kS != IntakeConstants.logIntakeMMKS.get() ||
+            motorConfig.Slot0.kV != IntakeConstants.logIntakeMMKV.get() ||
+            motorConfig.Slot0.kA != IntakeConstants.logIntakeMMKA.get() ||
+            motorConfig.Slot0.kP != IntakeConstants.logIntakeMMKP.get() ||
+            motorConfig.Slot0.kI != IntakeConstants.logIntakeMMKI.get() ||
+            motorConfig.Slot0.kD != IntakeConstants.logIntakeMMKD.get() ||
+            motorConfig.Slot0.kG != IntakeConstants.logIntakeMMKG.get()
+            ) {
+            IntakeConstants.configureArmMotor();
+        }
+    }
+    
 
     public static IntakeSubsystem getInstance() {
         if (INSTANCE == null) {

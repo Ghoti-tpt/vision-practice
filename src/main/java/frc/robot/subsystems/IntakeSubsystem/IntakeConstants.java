@@ -19,13 +19,13 @@ public class IntakeConstants {
     public static final TalonFX mIntakeWheelFx = new TalonFX(0);
     public static final TalonFX mIntakeWheelFollowerFx = new TalonFX(0);
 
-    private LoggedNetworkNumber logIntakeMMKS = new LoggedNetworkNumber("/Tuning/Intake/Angle/kS", 0);
-    private LoggedNetworkNumber logIntakeMMKV = new LoggedNetworkNumber("/Tuning/Intake/Angle/kV", 0);
-    private LoggedNetworkNumber logIntakeMMKA = new LoggedNetworkNumber("/Tuning/Intake/Angle/kA", 0);
-    private LoggedNetworkNumber logIntakeMMKP = new LoggedNetworkNumber("/Tuning/Intake/Angle/kP", 0);
-    private LoggedNetworkNumber logIntakeMMKI = new LoggedNetworkNumber("/Tuning/Intake/Angle/kI", 0);
-    private LoggedNetworkNumber logIntakeMMKD = new LoggedNetworkNumber("/Tuning/Intake/Angle/kD", 0);
-    private LoggedNetworkNumber logIntakeMMKG = new LoggedNetworkNumber("/Tuning/Intake/Angle/kG", 0);
+    public static LoggedNetworkNumber logIntakeMMKS = new LoggedNetworkNumber("/Tuning/Intake/Angle/kS", 0);
+    public static LoggedNetworkNumber logIntakeMMKV = new LoggedNetworkNumber("/Tuning/Intake/Angle/kV", 0);
+    public static LoggedNetworkNumber logIntakeMMKA = new LoggedNetworkNumber("/Tuning/Intake/Angle/kA", 0);
+    public static LoggedNetworkNumber logIntakeMMKP = new LoggedNetworkNumber("/Tuning/Intake/Angle/kP", 0);
+    public static LoggedNetworkNumber logIntakeMMKI = new LoggedNetworkNumber("/Tuning/Intake/Angle/kI", 0);
+    public static LoggedNetworkNumber logIntakeMMKD = new LoggedNetworkNumber("/Tuning/Intake/Angle/kD", 0);
+    public static LoggedNetworkNumber logIntakeMMKG = new LoggedNetworkNumber("/Tuning/Intake/Angle/kG", 0);
 
     public static LoggedNetworkNumber logIntakeMMVeloc = new LoggedNetworkNumber("Rebuilt/Intake/Tuning/Velocity", 0);
     public static LoggedNetworkNumber logIntakeMMAccel = new LoggedNetworkNumber("Rebuilt/Intake/Tuning/Acceleration", 0);
@@ -33,7 +33,7 @@ public class IntakeConstants {
     public static DynamicMotionMagicVoltage  IntakeArmMMRequest=  new DynamicMotionMagicVoltage(0, logIntakeMMVeloc.getAsDouble(), logIntakeMMAccel.getAsDouble()).withEnableFOC(Constants.ENABLEFOC);;
     public static VoltageOut IntakeWheelMMRequest = new VoltageOut(0).withEnableFOC(Constants.ENABLEFOC);
 
-
+    public static TalonFXConfiguration motorConfig;
 
     private IntakeConstants () {
         configureArmMotor();
@@ -56,7 +56,7 @@ public class IntakeConstants {
 
     }
 
-    private void configureArmMotor() {
+    public static void configureArmMotor() {
         TalonFXConfiguration motorConfig = new TalonFXConfiguration();
 
         motorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
