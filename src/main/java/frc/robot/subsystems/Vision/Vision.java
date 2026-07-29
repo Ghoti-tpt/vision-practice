@@ -1,33 +1,34 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.Vision;
 
 import frc.robot.util.LimelightHelpers.PoseEstimate;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.LimelightHelpers;
-import frc.robot.util.LimelightHelpers.*;
 import org.littletonrobotics.junction.Logger;
-import frc.robot.subsystems.*;
+import frc.robot.subsystems.Drive.CommandSwerveDrivetrain;
 
-public class VisionSubsystem extends SubsystemBase {
-    private String limelightName = "limelight-fl";
-    private String limelightName2 = "limelight-bl";
-    private static VisionSubsystem instance;
+public class Vision extends SubsystemBase {
+    private String limelightName = VisionConstants.FRONT_LEFT_LIMELIGHT_NAME;
+    private String limelightName2 = VisionConstants.BACK_LEFT_LIMELIGHT_NAME;
+    private static Vision instance;
     private static CommandSwerveDrivetrain drive;
 
-    public VisionSubsystem(CommandSwerveDrivetrain drive) {
-        if (this.drive == null) {
-            this.drive = drive;
+    public Vision(CommandSwerveDrivetrain drive) {
+        if (Vision.drive == null) {
+            Vision.drive = drive;
         }
     }
-    public VisionSubsystem() {
-        
+
+    public Vision() {
+
     }
 
-    public static synchronized VisionSubsystem getInstance() {
+    public static synchronized Vision getInstance() {
         if (instance == null) {
-            instance = new VisionSubsystem();
+            instance = new Vision();
         }
         return instance;
     }
+
     @Override
     public void periodic() {
         PoseEstimate estimatedPoseFL = LimelightHelpers.getBotPoseEstimate_wpiBlue(limelightName);
@@ -39,6 +40,6 @@ public class VisionSubsystem extends SubsystemBase {
     }
 
     public void publishLogs() {
-        
+
     }
 }
